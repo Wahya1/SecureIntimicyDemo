@@ -48,19 +48,18 @@ Ces exigences techniques assureront que SecureIntimacy puisse répondre aux beso
 #### Premier Sprint 
  
 La figure ci-dessous illustre les différentes tâches réalisées durant le premier sprint, d'une durée de 24 jours
-- 	Diagramme de UseCase
+##### 	Diagramme de UseCase
   
 ![image](https://github.com/user-attachments/assets/d24882a5-a11d-4ca6-acd3-7affd295586f)
 
--  Diagramme de Classe
+#####  Diagramme de Classe
 
 Ci-dessous le diagramme de classe représentant les données des entités Case et Hash et User en particuliers nécessaires pour les premières fonctionnalités comme est indiqué :
-   - La classe **Case** contient un identifiant caseNumber, la date de création du dossier createDate, ainsi qu'une description de l’image téléchargée description, facilitant l’identification du dossier après sa création. Elle inclut également le titre du dossier et un PIN unique pour chaque cas, garantissant ainsi qu'il n'y ait aucune confusion ultérieure. Ce PIN sera envoyé par notification après la création du cas. En outre, cette classe agit comme le contrôleur du système, interagissant avec la plupart des fonctionnalités liées à la gestion des cas.
+   ###### La classe **Case** contient un identifiant caseNumber, la date de création du dossier createDate, ainsi qu'une description de l’image téléchargée description, facilitant l’identification du dossier après sa création. Elle inclut également le titre du dossier et un PIN unique pour chaque cas, garantissant ainsi qu'il n'y ait aucune confusion ultérieure. Ce PIN sera envoyé par notification après la création du cas. En outre, cette classe agit comme le contrôleur du système, interagissant avec la plupart des fonctionnalités liées à la gestion des cas.
 
   ![image](https://github.com/user-attachments/assets/9c16fd6a-864a-404d-8e36-33a4c673896a)
-  
-  - La classe **Hash** contient des informations sur le hachage généré, notamment sa valeur hashValue et la date de sa création creationDate. Il est important de noter qu'il n'y a pas de méthode createHash, car le hachage est effectué côté client en utilisant l'algorithme de Perceptual Hashing. Cet algorithme est implémenté en appelant la bibliothèque image-hash, installée via npm install image-hash. 
-  - La classe **User** contient les informations essentielles concernant l'utilisateur, permettant de gérer l'affichage des cas et la liste des cas associés à l'utilisateur
+  ###### La classe **Hash** contient des informations sur le hachage généré, notamment sa valeur hashValue et la date de sa création creationDate. Il est important de noter qu'il n'y a pas de méthode createHash, car le hachage est effectué côté client en utilisant l'algorithme de Perceptual Hashing. Cet algorithme est implémenté en appelant la bibliothèque image-hash, installée via npm install image-hash. 
+  ######  La classe **User** contient les informations essentielles concernant l'utilisateur, permettant de gérer l'affichage des cas et la liste des cas associés à l'utilisateur
   - Le **Perceptual Hashing** est une technique qui génère un "empreinte" numérique d'une image en comparant ses caractéristiques visuelles plutôt que de simplement examiner ses données binaires. Cela permet de détecter des images similaires, même si elles sont modifiées (par exemple, redimensionnées ou légèrement altérées). Cette approche est particulièrement utile pour identifier les copies d'images sans se baser sur une correspondance exacte, La complexité temporelle de la génération du Perceptual Hash est O(n), où n est la taille del'image (nombre de pixels), avec un ajustement possible en fonction de la taille du hachage et de la précision choisie et pour la complexité mémoire elle est faible, car elle dépend uniquement de la taille du hachage, qui est généralement petit (environ 64 bits ou 256 bits).
 
 - 	Démonstration 
