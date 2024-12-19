@@ -104,4 +104,72 @@ Après la création de chaque cas, l'utilisateur reçoit une notification.
 L’utilisateur peut également supprimer un cas, entraînant la suppression de l’empreinte et de son historique.
 
 ![image](https://github.com/user-attachments/assets/d87351ee-d770-494c-b223-cba6c28e9cde)
-![image](https://github.com/user-attachments/assets/aa4925e3-b244-4aa3-a1a3-4c6158fbd6a6)
+
+![image](https://github.com/user-attachments/assets/994bb6fa-7487-4c46-9acd-5f84c10b00dd)
+
+
+
+
+# Deuxième Sprint
+
+Le deuxième sprint de développement de **SecureIntimacy** a duré 25 jours et a permis de mettre en place des fonctionnalités clés liées à l’authentification, la gestion de compte, ainsi que l’automatisation du processus de scan et de comparaison des empreintes (hashes).
+
+## b. Diagramme de UseCase général
+
+Le diagramme de cas d'utilisation du système pour ce sprint intègre les processus d'authentification, de gestion de compte, ainsi que la détection des correspondances entre les empreintes des utilisateurs et celles stockées chez les partenaires. Il met en évidence deux acteurs principaux : 
+- **Utilisateur standard** : responsable de la création de compte, de la connexion, de la réinitialisation de mot de passe, ainsi que de la gestion des cas, incluant leur création, recherche et suppression.
+- **Système** : prend en charge la recherche de correspondances entre les empreintes et l'envoi d'alertes en cas de détection de contenu illicite.
+
+![image](https://github.com/user-attachments/assets/638c2d63-27bb-4e5f-a9e3-7287c83bd0c5)
+
+## c. Diagramme de Classe général
+
+Le diagramme de classe montre les entités principales du système, incluant **Case**, **Hash**, **User**, mais aussi les nouvelles entités **Match** et **Partner**, ajoutées pour ce sprint. Voici une description des principales classes :
+![image](https://github.com/user-attachments/assets/b8950250-170e-475e-befa-5548affa41ae)
+
+1. **Partner** : Cette classe représente les partenaires qui partagent des bases de données de contenu protégé. Elle contient des informations telles que le nom, les coordonnées et les bases de données qu'ils fournissent. Cette classe permet de gérer l'accès aux ressources externes pour comparer les hashes et détecter les correspondances.
+
+2. **Case** : C'est le contrôleur principal du système. Elle inclut des méthodes comme `getHistory`, qui récupère les correspondances trouvées pour un hash donné. Elle vérifie également l'unicité des cas via `isCaseExist`, empêchant la duplication de cas pour des images identiques ou similaires.
+
+3. **Match** : Cette classe représente une correspondance entre une image téléchargée par un utilisateur et une image existante dans la base de données d'un partenaire. Elle inclut des propriétés comme `alertSent`, indiquant si une alerte a été envoyée, et `sourceLink`, l'URL où la correspondance a été trouvée. La méthode `isResentMatch()` permet de vérifier si une alerte a déjà été envoyée pour cette correspondance.
+
+4. **User** : Elle gère les fonctionnalités liées à l'authentification et la gestion des rôles des utilisateurs.
+
+## Algorithme de Comparaison des Hashes
+
+La comparaison des hashages se fait à l'aide de la **distance de Hamming**, qui mesure les différences entre deux chaînes de bits. L'algorithme a une complexité **O(n)**, où **n** est la longueur des chaînes à comparer. Bien que cet algorithme soit performant pour des comparaisons simples, il peut devenir moins efficace avec de grandes bases de données. C’est pourquoi des techniques comme le **hachage perceptuel** (pHash) sont envisagées pour des performances améliorées.
+
+## Automatisation et Traitement en Lot
+
+L’automatisation du scan et de la comparaison des empreintes se fait à intervalles réguliers grâce à **Spring Batch**, un framework qui permet de gérer des traitements en lot de manière efficace. Ce traitement parallèle permet de maintenir une haute performance même avec de grands volumes de données, tout en garantissant l'intégrité des informations.
+
+## d. Démonstration
+
+Le deuxième sprint a permis de réaliser plusieurs fonctionnalités clés :
+
+1. **Authentification** : Les utilisateurs peuvent désormais créer un compte avec leur nom, prénom et email, puis se connecter à leur compte.
+   ![image](https://github.com/user-attachments/assets/c1e8fa22-09d9-4a1b-853d-325f1821fa21)
+
+
+2. **Création de compte** : L'utilisateur peut ajouter son nom, prénom et email pour créer un compte sur la plateforme.
+
+   ![image](https://github.com/user-attachments/assets/ec9af655-4758-4356-9c6d-56b360f5cfc9)
+
+
+3. **Affichage des détails d'un cas** : L'utilisateur peut consulter les détails d'un cas, y compris la description complète, le titre, le PIN, ainsi que l'historique des correspondances, affichant le partenaire et le lien où la correspondance a été trouvée.
+
+  ![image](https://github.com/user-attachments/assets/b41519b2-9c00-4152-a9c4-3d2b6d8b46cc)
+
+
+4. **Envoi d'alertes** : En cas de correspondance, une alerte est envoyée à l'utilisateur, l'informant de la découverte d'une image similaire.
+
+  ![image](https://github.com/user-attachments/assets/3c4baffc-d5d7-4b12-8c35-50bb01b28bb9)
+
+
+## Conclusion
+
+En conclusion, **SecureIntimacy** constitue une réponse puissante aux défis actuels de la protection de la vie privée sur Internet, en particulier face à la menace de la diffusion non consensuelle de contenus intimes. Grâce à la technologie du **client-side hashing**, la plateforme permet à ses utilisateurs de garder un contrôle total sur leurs données sensibles, sans avoir à les stocker sur des serveurs externes, garantissant ainsi leur confidentialité et leur sécurité.
+
+La mise en œuvre de mécanismes de détection des images similaires, d'alertes en temps réel et d'un système d'authentification sécurisé via des **JSON Web Tokens (JWT)** renforce encore la fiabilité et l’efficacité du système. Le projet répond ainsi à un besoin urgent de solutions adaptées pour lutter contre la diffusion illicite de contenus, en offrant une expérience utilisateur fluide et intuitive, accessible même pour des personnes n’ayant pas de compétences techniques avancées.
+
+Les prochaines étapes de **SecureIntimacy** incluront l'amélioration continue de la plateforme, l'intégration avec davantage de partenaires externes pour élargir la base de détection des contenus non autorisés, et l'optimisation des performances afin de supporter un nombre croissant d’utilisateurs. Enfin, l’objectif est d’étendre l’adoption de cette technologie à l’échelle mondiale, afin de contribuer à un environnement numérique plus sécurisé et respectueux de la vie privée de chacun.
